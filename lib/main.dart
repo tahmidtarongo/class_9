@@ -1,9 +1,9 @@
-import 'package:class_8/splash_screen.dart';
-import 'package:class_8/ui_page.dart';
+import 'package:class_8/Screen/splash_screen.dart';
+import 'package:class_8/Screen/ui_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import 'data_model.dart';
+import 'Model/data_model.dart';
 
 void main() {
   runApp(const MyApp());

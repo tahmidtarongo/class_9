@@ -1,18 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'data_model.dart';
+import '../Model/data_model.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key,required this.data});
+  const MyHomePage({super.key});
 
- final Data data;
+  // final Data data;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Data value = Data(email: '', mobileNumber: '', imageLink: '', name: '');
+  getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    value.imageLink = prefs.getString('imageLink') ?? '';
+    value.mobileNumber = prefs.getString('phoneNumber') ?? '';
+    value.email = prefs.getString('email') ?? '';
+    value.name = prefs.getString('name') ?? '';
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,12 +40,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-             CircleAvatar(
+            CircleAvatar(
               radius: 50.0,
-              backgroundImage:NetworkImage(widget.data.imageLink),
+              backgroundImage: NetworkImage(value.imageLink),
             ),
-             Text(
-              widget.data.name,
+            Text(
+              value.name,
               style: const TextStyle(
                 fontFamily: "Pacifico",
                 fontSize: 40.0,
@@ -51,11 +70,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Card(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: ListTile(
-                leading: Icon(Icons.phone),
+                leading: const Icon(Icons.phone),
                 title: Text(
-                  widget.data.mobileNumber,
+                  value.mobileNumber,
                   style: GoogleFonts.sourceSans3(
                     color: Colors.teal.shade900,
                     fontSize: 20,
@@ -68,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ListTile(
                 leading: const Icon(Icons.email),
                 title: Text(
-                  widget.data.email,
+                  value.email,
                   style: GoogleFonts.sourceSans3(
                     color: Colors.teal.shade900,
                     fontSize: 20,
